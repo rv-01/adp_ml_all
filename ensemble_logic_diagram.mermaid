@@ -1,0 +1,123 @@
+graph TD
+    %% Input Data
+    A["Processed Features Ready for ML"] --> B["Ensemble Detection"]
+    
+    %% Algorithm Voting
+    B --> C1["Isolation Forest Vote: 0.85 Weight: 15%"]
+    B --> C2["LOF Algorithm Vote: 0.92 Weight: 20%"]
+    B --> C3["One-Class SVM Vote: 0.71 Weight: 15%"]
+    B --> C4["Autoencoder Vote: 0.88 Weight: 25%"]
+    B --> C5["Statistical Vote: 0.95 Weight: 10%"]
+    B --> C6["DBSCAN Vote: 0.67 Weight: 10%"]
+    B --> C7["Temporal Vote: 0.23 Weight: 5%"]
+    
+    %% Weighted Calculation
+    C1 --> D["Weighted Sum Calculation Final Score: 0.813"]
+    C2 --> D
+    C3 --> D
+    C4 --> D
+    C5 --> D
+    C6 --> D
+    C7 --> D
+    
+    %% Consensus Check
+    D --> E{"Consensus Analysis How many algorithms agree?"}
+    E --> E1["Agreement Score 5 out of 7 algorithms voted > 0.5 = 71% consensus"]
+    
+    %% Final Decision
+    E1 --> F{"Final Decision Logic Ensemble Score: 0.813 Consensus: 71%"}
+    
+    F -->|Score > 0.8 AND Consensus > 70%| G1["HIGH CONFIDENCE Flag as Anomaly"]
+    F -->|Score > 0.6 AND Consensus > 40%| G2["MEDIUM CONFIDENCE Flag for Review"]
+    F -->|Score > 0.3 AND Consensus > 30%| G3["LOW CONFIDENCE Monitor Pattern"]
+    F -->|Below Thresholds| G4["NORMAL No Action Needed"]
+    
+    %% Human Feedback
+    G1 --> H["Human Reviews Record"]
+    G2 --> H
+    G3 --> H
+    
+    H --> I{"Human Decision"}
+    I -->|This IS an anomaly| J1["CONFIRM True Positive"]
+    I -->|This is NOT an anomaly| J2["DISMISS False Positive"]
+    I -->|This is CRITICAL| J3["ESCALATE High Priority"]
+    
+    %% Performance Tracking
+    J1 --> K["Algorithm Performance Update"]
+    J2 --> K
+    J3 --> K
+    
+    %% Individual Algorithm Learning
+    K --> L1["Isolation Forest Correctly flagged Performance: +1.0"]
+    K --> L2["LOF Algorithm Correctly flagged Performance: +1.0"]
+    K --> L3["One-Class SVM Correctly flagged Performance: +1.0"]
+    K --> L4["Autoencoder Correctly flagged Performance: +1.0"]
+    K --> L5["Statistical Correctly flagged Performance: +1.0"]
+    K --> L6["DBSCAN Correctly flagged Performance: +1.0"]
+    K --> L7["Temporal Failed to flag Performance: +0.0"]
+    
+    %% Weight Adjustment Logic
+    L1 --> M["Weight Recalculation Based on Recent Performance"]
+    L2 --> M
+    L3 --> M
+    L4 --> M
+    L5 --> M
+    L6 --> M
+    L7 --> M
+    
+    M --> N["Performance Analysis Last 50 decisions per algorithm"]
+    N --> N1["IF: 85% accuracy Weight stays 15%"]
+    N --> N2["LOF: 92% accuracy Weight increases to 22%"]
+    N --> N3["SVM: 78% accuracy Weight decreases to 13%"]
+    N --> N4["AE: 88% accuracy Weight increases to 27%"]
+    N --> N5["Stat: 95% accuracy Weight increases to 12%"]
+    N --> N6["DBSCAN: 71% accuracy Weight decreases to 8%"]
+    N --> N7["Temporal: 45% accuracy Weight decreases to 3%"]
+    
+    %% New Weights Applied
+    N1 --> O["Apply New Weights Normalize to sum = 1.0"]
+    N2 --> O
+    N3 --> O
+    N4 --> O
+    N5 --> O
+    N6 --> O
+    N7 --> O
+    
+    %% Continuous Improvement
+    O --> P["Store Updated Model Ready for next detection"]
+    P --> Q["Next Data Processing Uses improved weights"]
+    Q --> B
+    
+    %% Threshold Adaptation
+    M --> R["Threshold Tuning"]
+    R --> R1{"False Positive Rate Too High?"}
+    R --> R2{"False Negative Rate Too High?"}
+    
+    R1 -->|Yes over 30%| S1["Increase Thresholds Be more conservative"]
+    R2 -->|Yes over 20%| S2["Decrease Thresholds Be more sensitive"]
+    
+    S1 --> O
+    S2 --> O
+    
+    %% Performance Metrics
+    P --> T["System Metrics"]
+    T --> T1["Precision: 87% Of flagged records, 87% were real issues"]
+    T --> T2["Recall: 92% Found 92% of all actual anomalies"]
+    T --> T3["F1-Score: 89% Balanced performance measure"]
+    
+    %% Styling for clarity
+    classDef inputStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef algorithmStyle fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef calculationStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef decisionStyle fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    classDef humanStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef learningStyle fill:#e0f2f1,stroke:#00796b,stroke-width:2px
+    classDef metricsStyle fill:#f1f8e9,stroke:#689f38,stroke-width:2px
+    
+    class A inputStyle
+    class C1,C2,C3,C4,C5,C6,C7 algorithmStyle
+    class D,E,E1,M,N calculationStyle
+    class F,I,R1,R2 decisionStyle
+    class H,J1,J2,J3 humanStyle
+    class K,L1,L2,L3,L4,L5,L6,L7,O,P,Q,S1,S2 learningStyle
+    class T,T1,T2,T3,N1,N2,N3,N4,N5,N6,N7 metricsStyle

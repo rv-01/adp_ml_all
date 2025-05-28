@@ -1,0 +1,158 @@
+graph TB
+    %% User Interface Layer
+    UI[🌐 Flask Web Interface<br/>Dashboard, Upload, Review]
+    
+    %% API Layer
+    UI --> API[🔌 REST API Layer<br/>app.py routes]
+    
+    %% Core Processing Components
+    API --> DL[📥 Data Loader<br/>src/data_ingestion/loaders.py]
+    API --> ED[🧠 Ensemble Detector<br/>src/advanced_ml/ensemble_detector.py]
+    API --> EE[💡 Explainability Engine<br/>src/explainability/explainer.py]
+    API --> AS[📊 Audit Store<br/>src/audit/store.py]
+    
+    %% Data Loader Details
+    DL --> DL1[📄 File Processing<br/>CSV, Parquet support]
+    DL --> DL2[🔧 Preprocessing<br/>Type detection, standardization]
+    DL --> DL3[🏷️ Metadata Addition<br/>Row IDs, timestamps]
+    
+    %% Ensemble Detector Components
+    ED --> FE[⚙️ Feature Engineering<br/>Multi-modal preparation]
+    ED --> AA[🤖 Algorithm Array<br/>7 Detection Algorithms]
+    ED --> VL[🗳️ Voting Logic<br/>Weighted consensus]
+    ED --> AL[🧠 Adaptive Learning<br/>Weight adjustment]
+    
+    %% Individual Algorithms
+    AA --> A1[🌳 Isolation Forest<br/>sklearn.ensemble]
+    AA --> A2[🔍 Local Outlier Factor<br/>sklearn.neighbors]
+    AA --> A3[🎯 One-Class SVM<br/>sklearn.svm]
+    AA --> A4[🧠 Deep Autoencoder<br/>TensorFlow/Keras]
+    AA --> A5[📊 Statistical Tests<br/>scipy.stats]
+    AA --> A6[🔘 DBSCAN Clustering<br/>sklearn.cluster]
+    AA --> A7[⏰ Temporal Analysis<br/>Custom implementation]
+    
+    %% Feature Engineering Paths
+    FE --> FE1[📊 Numerical Features<br/>Scaling, transformations]
+    FE --> FE2[📅 Temporal Features<br/>Time extraction]
+    FE --> FE3[🏷️ Categorical Features<br/>Encoding strategies]
+    FE --> FE4[📝 Text Features<br/>Length, complexity metrics]
+    
+    %% Algorithm-Specific Processing
+    FE1 --> A1
+    FE1 --> A2
+    FE1 --> A3
+    FE2 --> A7
+    FE3 --> A5
+    FE4 --> A4
+    
+    %% Voting and Decision
+    A1 --> VL
+    A2 --> VL
+    A3 --> VL
+    A4 --> VL
+    A5 --> VL
+    A6 --> VL
+    A7 --> VL
+    
+    VL --> DM[🎯 Decision Making<br/>Consensus thresholds]
+    DM --> CF[📋 Confidence Levels<br/>High, Medium, Low]
+    
+    %% Explainability Processing
+    CF --> EE
+    EE --> EE1[🔍 Root Cause Analysis<br/>Feature contributions]
+    EE --> EE2[📝 Natural Language<br/>Human-readable explanations]
+    EE --> EE3[💡 Action Recommendations<br/>Suggested next steps]
+    
+    %% Human Feedback Loop
+    EE1 --> HF[👤 Human Feedback<br/>Confirm/Dismiss/Escalate]
+    EE2 --> HF
+    EE3 --> HF
+    
+    HF --> AL
+    AL --> PU[📈 Performance Update<br/>Algorithm accuracy tracking]
+    AL --> WA[⚖️ Weight Adjustment<br/>Exponential moving average]
+    AL --> TA[🎛️ Threshold Adaptation<br/>Precision/Recall balance]
+    
+    PU --> AA
+    WA --> VL
+    TA --> DM
+    
+    %% Audit and Storage
+    HF --> AS
+    CF --> AS  
+    AL --> AS
+    
+    AS --> DB[(🗄️ SQLite Database<br/>Quality checks, feedback, sessions)]
+    AS --> ST[📊 Statistics Calculation<br/>Performance metrics]
+    AS --> TR[📈 Trend Analysis<br/>Historical patterns]
+    
+    %% Dashboard Data Flow
+    ST --> UI
+    TR --> UI
+    AL --> UI
+    
+    %% Configuration Management
+    CONFIG[⚙️ Configuration<br/>config.py] --> ED
+    CONFIG --> API
+    
+    CONFIG --> CW[⚖️ Initial Weights<br/>Algorithm starting weights]
+    CONFIG --> CT[🎯 Thresholds<br/>Confidence levels]
+    CONFIG --> CL[🧠 Learning Params<br/>Rates, minimums]
+    
+    CW --> VL
+    CT --> DM
+    CL --> AL
+    
+    %% External Dependencies
+    EXT[📦 External Libraries]
+    EXT --> EXT1[🔬 scikit-learn<br/>ML algorithms]
+    EXT --> EXT2[🧠 TensorFlow<br/>Deep learning]
+    EXT --> EXT3[📊 scipy<br/>Statistical tests]
+    EXT --> EXT4[🐼 pandas<br/>Data manipulation]
+    EXT --> EXT5[🌐 Flask<br/>Web framework]
+    
+    EXT1 --> A1
+    EXT1 --> A2
+    EXT1 --> A3
+    EXT1 --> A6
+    EXT2 --> A4
+    EXT3 --> A5
+    EXT4 --> DL
+    EXT4 --> FE
+    EXT5 --> API
+    
+    %% Data Flow Indicators
+    DL -.->|Processed Data| ED
+    ED -.->|Anomaly Results| EE
+    EE -.->|Explanations| AS
+    AS -.->|Stored Results| UI
+    
+    %% Drift Detection (Advanced)
+    DD[📡 Drift Detector<br/>Statistical monitoring]
+    DL --> DD
+    DD --> DD1[📊 PSI Calculation<br/>Population Stability Index]
+    DD --> DD2[📈 KS Tests<br/>Distribution comparison]
+    DD --> DD3[⚠️ Drift Alerts<br/>Threshold violations]
+    
+    DD3 --> AL
+    DD3 --> UI
+    
+    %% Model Persistence
+    AL --> MP[💾 Model Persistence<br/>model_cache/]
+    MP --> MC[(📁 Model Cache<br/>Serialized algorithms)]
+    MC --> AA
+    
+    %% Styling
+    classDef uiLayer fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
+    classDef coreLogic fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef algorithms fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef storage fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef config fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    classDef external fill:#f1f8e9,stroke:#689f38,stroke-width:2px
+    
+    class UI,API uiLayer
+    class DL,ED,EE,AS,FE,VL,AL,DM coreLogic
+    class AA,A1,A2,A3,A4,A5,A6,A7 algorithms
+    class DB,MC,AS,ST,TR storage
+    class CONFIG,CW,CT,CL config
+    class EXT,EXT1,EXT2,EXT3,EXT4,EXT5 external

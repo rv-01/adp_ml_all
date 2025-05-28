@@ -1,0 +1,142 @@
+graph TD
+    %% Data Input Layer
+    A["Raw Data Upload CSV/Parquet Files"] --> B["Data Ingestion DataLoader"]
+    
+    %% Preprocessing Layer
+    B --> C["Preprocessing Pipeline"]
+    C --> C1["Column Standardization lowercase, no spaces"]
+    C --> C2["Auto Type Detection datetime, numeric, categorical"]
+    C --> C3["Metadata Addition row_id, timestamp"]
+    
+    C1 --> D["Advanced Feature Engineering"]
+    C2 --> D
+    C3 --> D
+    
+    %% Feature Engineering Layer
+    D --> D1["Numerical Features raw, log, sqrt, percentile"]
+    D --> D2["Temporal Features hour, day, month, weekend"]
+    D --> D3["Categorical Features frequency, target encoding"]
+    D --> D4["Text Features length, word count, chars"]
+    D --> D5["Interaction Features ratios, products"]
+    
+    %% Algorithm Ensemble Layer
+    D1 --> E["7-Algorithm Ensemble"]
+    D2 --> E
+    D3 --> E
+    D4 --> E
+    D5 --> E
+    
+    %% Individual Algorithms
+    E --> F1["Isolation Forest Tree-based isolation Weight: 15%"]
+    E --> F2["Local Outlier Factor Density-based detection Weight: 20%"]
+    E --> F3["One-Class SVM Boundary detection Weight: 15%"]
+    E --> F4["Deep Autoencoder Neural reconstruction Weight: 25%"]
+    E --> F5["Statistical Outlier Z-score and IQR Weight: 10%"]
+    E --> F6["Density Clustering DBSCAN noise detection Weight: 10%"]
+    E --> F7["Temporal Anomaly Time-series patterns Weight: 5%"]
+    
+    %% Algorithm Processing
+    F1 --> G1["Anomaly Scores Probability: 0-1"]
+    F2 --> G2["Anomaly Scores Probability: 0-1"]
+    F3 --> G3["Anomaly Scores Probability: 0-1"]
+    F4 --> G4["Anomaly Scores Probability: 0-1"]
+    F5 --> G5["Anomaly Scores Probability: 0-1"]
+    F6 --> G6["Anomaly Scores Probability: 0-1"]
+    F7 --> G7["Anomaly Scores Probability: 0-1"]
+    
+    %% Ensemble Voting
+    G1 --> H["Weighted Ensemble Voting"]
+    G2 --> H
+    G3 --> H
+    G4 --> H
+    G5 --> H
+    G6 --> H
+    G7 --> H
+    
+    %% Consensus Decision
+    H --> I{"Consensus Check Multiple algorithms agree?"}
+    I -->|High Confidence Score > 0.8| J1["High Priority Immediate Review"]
+    I -->|Medium Confidence Score > 0.6| J2["Medium Priority Review Soon"]
+    I -->|Low Confidence Score > 0.3| J3["Low Priority Monitor Pattern"]
+    I -->|No Consensus Score < 0.3| J4["Normal Record No Action"]
+    
+    %% Explainability Layer
+    J1 --> K["Explainability Engine"]
+    J2 --> K
+    J3 --> K
+    
+    K --> K1["Generate Explanations Why was it flagged?"]
+    K --> K2["Feature Contributions Which fields caused it?"]
+    K --> K3["Suggested Actions What should you do?"]
+    
+    %% Human Review Interface
+    K1 --> L["Human Review Interface"]
+    K2 --> L
+    K3 --> L
+    
+    L --> M{"Human Decision"}
+    M -->|Confirm Anomaly| N1["True Positive Reward Algorithms"]
+    M -->|Dismiss Flag| N2["False Positive Penalize Algorithms"]
+    M -->|Escalate Issue| N3["Critical Issue Immediate Action"]
+    
+    %% Adaptive Learning Loop
+    N1 --> O["Adaptive Learning Engine"]
+    N2 --> O
+    N3 --> O
+    
+    O --> O1["Update Algorithm Performance Track success rates"]
+    O --> O2["Adjust Algorithm Weights Better algorithms get more influence"]
+    O --> O3["Tune Detection Thresholds Balance precision vs recall"]
+    
+    %% Weight Update Feedback
+    O1 --> P{"Enough Feedback >= 10 samples?"}
+    P -->|Yes| Q["Recalculate Weights Exponential moving average"]
+    P -->|No| R["Keep Learning Need more data"]
+    
+    Q --> Q1["Normalize Weights Ensure sum = 1.0"]
+    Q1 --> S["Update Ensemble Apply new weights"]
+    
+    %% Audit and Governance
+    S --> T["Audit Trail"]
+    L --> T
+    O --> T
+    
+    T --> T1["Database Storage All decisions tracked"]
+    T --> T2["Performance Metrics Precision, Recall, F1"]
+    T --> T3["Trend Analysis Quality over time"]
+    
+    %% Dashboard and Monitoring
+    T1 --> U["Dashboard Display"]
+    T2 --> U
+    T3 --> U
+    
+    U --> U1["Algorithm Weights Real-time visualization"]
+    U --> U2["System Performance Accuracy metrics"]
+    U --> U3["Quality Trends Historical analysis"]
+    
+    %% Continuous Improvement Loop
+    S --> V["Next Data Processing Improved Detection"]
+    V --> E
+    
+    %% Drift Detection (Advanced Feature)
+    B --> W["Drift Detector Monitor data changes"]
+    W --> W1["Statistical Tests PSI, KS-test"]
+    W --> W2["Alert on Drift Retrain if needed"]
+    W2 --> O
+    
+    %% Styling
+    classDef inputNode fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef processNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef algorithmNode fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef decisionNode fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef humanNode fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef learningNode fill:#e0f2f1,stroke:#00695c,stroke-width:2px
+    classDef storageNode fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    
+    class A,B inputNode
+    class C,C1,C2,C3,D,D1,D2,D3,D4,D5 processNode
+    class F1,F2,F3,F4,F5,F6,F7,G1,G2,G3,G4,G5,G6,G7 algorithmNode
+    class I,M,P decisionNode
+    class L,N1,N2,N3 humanNode
+    class O,O1,O2,O3,Q,Q1,S,V learningNode
+    class T,T1,T2,T3,U,U1,U2,U3 storageNode
